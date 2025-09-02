@@ -3,20 +3,22 @@ import API_BASE_URL from "../config";
 
 function Dashboard() {
   const [appointments, setAppointments] = useState([]);
-  const email = localStorage.getItem("patient");
+  const token = localStorage.getItem("patientToken");
 
   useEffect(() => {
     async function fetchAppointments() {
       try {
-        const res = await fetch(`${API_BASE_URL}/appointments?patient_email=${email}`);
+        const res = await fetch(`${API_BASE_URL}/appointments?patient_id=1`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const data = await res.json();
         setAppointments(data);
       } catch (err) {
-        console.error("Error:", err);
+        console.error(err);
       }
     }
-    if (email) fetchAppointments();
-  }, [email]);
+    if (token) fetchAppointments();
+  }, [token]);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -27,7 +29,7 @@ function Dashboard() {
         <table className="min-w-full bg-white rounded-lg shadow-md">
           <thead className="bg-green-600 text-white">
             <tr>
-              <th className="p-3 text-left">Doctor</th>
+              <th className="p-3 text-left">Doctor ID</th>
               <th className="p-3 text-left">Date</th>
               <th className="p-3 text-left">Status</th>
             </tr>
@@ -35,7 +37,7 @@ function Dashboard() {
           <tbody>
             {appointments.map((a) => (
               <tr key={a.id} className="border-b hover:bg-green-50">
-                <td className="p-3">{a.doctor?.name || a.doctor_id}</td>
+                <td className="p-3">{a.doctor_id}</td>
                 <td className="p-3">{a.date}</td>
                 <td className="p-3">{a.status}</td>
               </tr>
