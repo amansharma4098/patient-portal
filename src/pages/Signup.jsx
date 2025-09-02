@@ -10,19 +10,29 @@ function Signup() {
     age: "",
     gender: "",
   });
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setMessage(""); // reset message
     try {
-      const res = await fetch(`${API_BASE_URL}/auth/patient/signup?` + new URLSearchParams(form), {
-        method: "POST",
-      });
+      const res = await fetch(
+        `${API_BASE_URL}/auth/patient/signup?` + new URLSearchParams(form),
+        { method: "POST" }
+      );
       const data = await res.json();
-      alert(data.msg || "Patient registered!");
-      window.location.href = "/login";
+      if (res.ok) {
+        setMessage("✅ Signup successful! Redirecting to login...");
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 1500);
+      } else {
+        setMessage(`❌ Error: ${data.detail || "Signup failed"}`);
+      }
     } catch (err) {
+      setMessage("❌ Something went wrong. Please try again.");
       console.error(err);
     }
   };
@@ -46,6 +56,7 @@ function Signup() {
         <button className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
           Signup
         </button>
+        {message && <p className="mt-3 text-center text-sm">{message}</p>}
       </form>
     </div>
   );
