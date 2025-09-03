@@ -109,7 +109,7 @@ export default function Dashboard() {
           <tbody>
             {appointments.map((a) => (
               <tr key={a.id} className="border-b hover:bg-blue-50">
-                <td className="p-3">{a.doctorName}</td>
+                <td className="p-3">{a.name}</td>
                 <td className="p-3">{a.date}</td>
                 <td className="p-3">{a.status}</td>
                 <td className="p-3">
