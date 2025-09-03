@@ -12,23 +12,31 @@ export default function BookAppointment() {
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL || "https://raksha360-backend.onrender.com"}/appointments?doctor_id=${doctorId}&date=${date}&time=${time}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    try {
+      const res = await fetch(
+        `${
+          import.meta.env.VITE_API_BASE_URL ||
+          "https://raksha360-backend.onrender.com"
+        }/appointments?doctor_id=${Number(doctorId)}&date=${date}&time=${time}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      if (data?.appointment_id) {
+        alert("✅ Appointment booked successfully!");
+        navigate("/dashboard");
+      } else {
+        alert(`❌ Failed to book appointment. ${data?.detail || ""}`);
       }
-    );
-
-    const data = await res.json();
-
-    if (data?.appointment_id) {
-      alert("✅ Appointment booked successfully!");
-      navigate("/dashboard");
-    } else {
-      alert("❌ Failed to book appointment.");
+    } catch (err) {
+      console.error("Error booking appointment:", err);
+      alert("🚨 Something went wrong while booking.");
     }
   }
 
@@ -39,6 +47,7 @@ export default function BookAppointment() {
         className="bg-white p-6 shadow-lg rounded-xl w-96"
       >
         <h2 className="text-2xl mb-4 font-bold">Book Appointment</h2>
+
         <input
           type="date"
           className="border p-2 w-full mb-3"
@@ -46,6 +55,7 @@ export default function BookAppointment() {
           onChange={(e) => setDate(e.target.value)}
           required
         />
+
         <input
           type="time"
           className="border p-2 w-full mb-3"
@@ -53,6 +63,7 @@ export default function BookAppointment() {
           onChange={(e) => setTime(e.target.value)}
           required
         />
+
         <button className="bg-blue-600 text-white p-2 w-full rounded">
           Confirm Booking
         </button>
