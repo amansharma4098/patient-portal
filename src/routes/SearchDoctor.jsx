@@ -54,7 +54,7 @@ export default function SearchDoctor() {
             <div key={doc.id} className="border p-3 rounded bg-white">
               <p className="font-bold">{doc.name}</p>
               <p>
-                {doc.specialization} - {doc.city}
+                {doc.specialization} - {doc.city} - {doc.email}
               </p>
               <Link
                 to={`/book/${doc.id}`}
