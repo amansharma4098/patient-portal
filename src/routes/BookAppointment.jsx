@@ -1,6 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { bookAppointment } from "../api/api";
 
 export default function BookAppointment() {
   const { doctorId } = useParams();
@@ -11,18 +10,25 @@ export default function BookAppointment() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // ✅ convert doctorId from string to number
-    const res = await bookAppointment({
-      doctor_id: Number(doctorId),
-      date,
-      time,
-    });
+    const token = localStorage.getItem("token");
 
-    if (res?.appointment_id) {
-      alert("Appointment booked successfully!");
+    const res = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL || "https://raksha360-backend.onrender.com"}/appointments?doctor_id=${doctorId}&date=${date}&time=${time}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    if (data?.appointment_id) {
+      alert("✅ Appointment booked successfully!");
       navigate("/dashboard");
     } else {
-      alert("Failed to book appointment.");
+      alert("❌ Failed to book appointment.");
     }
   }
 
