@@ -26,7 +26,7 @@ export async function searchDoctors(city, specialization) {
 }
 
 export async function bookAppointment(data) {
-  const res = await fetch(`${BASE_URL}/appointments/book`, {
+  const res = await fetch(`${BASE_URL}/appointments/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
