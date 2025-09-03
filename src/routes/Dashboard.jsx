@@ -27,13 +27,18 @@ export default function Dashboard() {
         const now = new Date();
         const upcoming = data.filter((appt) => new Date(appt.date) > now);
 
-        // attach doctor name
+        // ✅ Fetch doctor name for each appointment
         const withDoctorNames = await Promise.all(
           upcoming.map(async (appt) => {
             try {
-              const docRes = await fetch(`${baseUrl}/doctors/${appt.doctor_id}`);
+              const docRes = await fetch(`${baseUrl}/doctors/${appt.doctor_id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+              });
               const doctor = await docRes.json();
-              return { ...appt, doctorName: doctor?.name || `Doctor #${appt.doctor_id}` };
+              return {
+                ...appt,
+                doctorName: doctor?.name || `Doctor #${appt.doctor_id}`,
+              };
             } catch {
               return { ...appt, doctorName: `Doctor #${appt.doctor_id}` };
             }
@@ -50,7 +55,8 @@ export default function Dashboard() {
   }
 
   async function cancelAppointment(id) {
-    if (!window.confirm("Are you sure you want to cancel this appointment?")) return;
+    if (!window.confirm("Are you sure you want to cancel this appointment?"))
+      return;
     setLoadingId(id);
 
     try {
@@ -85,8 +91,8 @@ export default function Dashboard() {
         </h2>
 
         {appointments.length === 0 ? (
-          <div className="bg-white shadow-md rounded-xl p-6 sm:p-10 text-center text-gray-500">
-            <p className="text-base sm:text-lg">No upcoming appointments.</p>
+          <div className="bg-white shadow-md rounded-xl p-6 text-center text-gray-500">
+            <p>No upcoming appointments.</p>
           </div>
         ) : (
           <div className="bg-white shadow-lg rounded-xl overflow-hidden">
