@@ -10,8 +10,15 @@ export default function BookAppointment() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const res = await bookAppointment({ doctor_id: doctorId, date, time });
-    if (res?.id) {
+
+    // ✅ convert doctorId from string to number
+    const res = await bookAppointment({
+      doctor_id: Number(doctorId),
+      date,
+      time,
+    });
+
+    if (res?.appointment_id) {
       alert("Appointment booked successfully!");
       navigate("/dashboard");
     } else {
@@ -29,12 +36,16 @@ export default function BookAppointment() {
         <input
           type="date"
           className="border p-2 w-full mb-3"
+          value={date}
           onChange={(e) => setDate(e.target.value)}
+          required
         />
         <input
           type="time"
           className="border p-2 w-full mb-3"
+          value={time}
           onChange={(e) => setTime(e.target.value)}
+          required
         />
         <button className="bg-blue-600 text-white p-2 w-full rounded">
           Confirm Booking
