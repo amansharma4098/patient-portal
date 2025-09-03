@@ -6,9 +6,11 @@ export default function BookAppointment() {
   const navigate = useNavigate();
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
 
     const token = localStorage.getItem("token");
 
@@ -20,9 +22,7 @@ export default function BookAppointment() {
         }/appointments?doctor_id=${Number(doctorId)}&date=${date}&time=${time}`,
         {
           method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
@@ -37,37 +37,59 @@ export default function BookAppointment() {
     } catch (err) {
       console.error("Error booking appointment:", err);
       alert("🚨 Something went wrong while booking.");
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 shadow-lg rounded-xl w-96"
-      >
-        <h2 className="text-2xl mb-4 font-bold">Book Appointment</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="bg-white shadow-lg rounded-2xl w-full max-w-md p-6 sm:p-8">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-center text-indigo-700 mb-6">
+          📅 Book Appointment
+        </h2>
 
-        <input
-          type="date"
-          className="border p-2 w-full mb-3"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-        />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1">
+              Select Date
+            </label>
+            <input
+              type="date"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+              min={new Date().toISOString().split("T")[0]} // disable past dates
+            />
+          </div>
 
-        <input
-          type="time"
-          className="border p-2 w-full mb-3"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-          required
-        />
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1">
+              Select Time
+            </label>
+            <input
+              type="time"
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              required
+            />
+          </div>
 
-        <button className="bg-blue-600 text-white p-2 w-full rounded">
-          Confirm Booking
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-2 rounded-lg text-white font-semibold shadow-md transition ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-indigo-600 hover:bg-indigo-700"
+            }`}
+          >
+            {loading ? "Booking..." : "Confirm Booking"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
