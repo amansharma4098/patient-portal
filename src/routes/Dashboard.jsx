@@ -77,7 +77,7 @@ export default function Dashboard() {
         <table className="min-w-full bg-white rounded-lg shadow-md">
           <thead className="bg-blue-600 text-white">
             <tr>
-              <th className="p-3 text-left">Doctor ID</th>
+              <th className="p-3 text-left">Doctor Name</th>
               <th className="p-3 text-left">Date & Time</th>
               <th className="p-3 text-left">Status</th>
               <th className="p-3 text-left">Actions</th>
@@ -86,7 +86,7 @@ export default function Dashboard() {
           <tbody>
             {appointments.map((a) => (
               <tr key={a.id} className="border-b hover:bg-blue-50">
-                <td className="p-3">{a.doctor_id}</td>
+                <td className="p-3">{a.name}</td>
                 <td className="p-3">{a.date}</td>
                 <td className="p-3">{a.status}</td>
                 <td className="p-3">
