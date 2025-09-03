@@ -20,7 +20,7 @@ export async function login(data) {
 
 export async function searchDoctors(city, specialization) {
   const res = await fetch(
-    `${BASE_URL}/doctors/search?city=${city}&specialization=${specialization}`
+    `${BASE_URL}/doctors/?city=${city}&specialization=${specialization}`
   );
   return res.json();
 }
