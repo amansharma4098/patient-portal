@@ -22,13 +22,12 @@ export default function Login() {
       
       {/* Image & Welcome Section */}
       <div className="md:w-1/2 bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center mb-8 md:mb-0">
-        {/* Company Name */}
         <h1 className="text-4xl font-extrabold text-blue-700 mb-6 select-none">
           Raksha360
         </h1>
 
         <img
-          src="https://source.unsplash.com/600x400/?doctor,patient"
+          src="https://via.placeholder.com/600x400.png?text=Doctor+Patient"
           alt="Doctor and patient"
           className="rounded-xl mb-6 w-full max-w-md object-cover shadow-md"
         />
