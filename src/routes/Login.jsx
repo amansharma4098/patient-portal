@@ -18,7 +18,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-100 p-6">
+    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-100 p-6 gap-8">
       
       {/* Image & Welcome Section */}
       <div className="md:w-1/2 bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center mb-8 md:mb-0">
@@ -28,7 +28,7 @@ export default function Login() {
         </h1>
 
         <img
-          src="https://images.unsplash.com/photo-1588776814546-0e899bb42b54?auto=format&fit=crop&w=600&q=80"
+          src="https://source.unsplash.com/600x400/?doctor,patient"
           alt="Doctor and patient"
           className="rounded-xl mb-6 w-full max-w-md object-cover shadow-md"
         />
