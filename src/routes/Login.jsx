@@ -20,17 +20,11 @@ export default function Login() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-100 p-6 gap-8">
       
-      {/* Image & Welcome Section */}
+      {/* Welcome Section */}
       <div className="md:w-1/2 bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center mb-8 md:mb-0">
-        <h1 className="text-4xl font-extrabold text-blue-700 mb-6 select-none">
+        <h1 className="text-5xl font-extrabold text-blue-700 mb-6 select-none">
           Raksha360
         </h1>
-
-        <img
-          src="https://via.placeholder.com/600x400.png?text=Doctor+Patient"
-          alt="Doctor and patient"
-          className="rounded-xl mb-6 w-full max-w-md object-cover shadow-md"
-        />
         <h2 className="text-3xl font-bold mb-2 text-blue-700">
           Welcome Back!
         </h2>
