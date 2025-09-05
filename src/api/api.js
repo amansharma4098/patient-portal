@@ -1,5 +1,11 @@
 const BASE_URL = "https://raksha360-backend.onrender.com";
 
+// Helper to get Authorization header
+function authHeader() {
+  const token = localStorage.getItem("token");
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 export async function signup(data) {
   const res = await fetch(`${BASE_URL}/patients/signup`, {
     method: "POST",
@@ -30,9 +36,26 @@ export async function bookAppointment(data) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      ...authHeader(),
     },
     body: JSON.stringify(data),
   });
+  return res.json();
+}
+
+// New function to get patient appointments with auth header
+export async function getAppointments() {
+  const res = await fetch(`${BASE_URL}/appointments`, {
+    method: "GET",
+    headers: {
+      ...authHeader(),
+    },
+  });
+
+  if (!res.ok) {
+    // You can customize error handling here
+    throw new Error("Unauthorized or failed to fetch appointments");
+  }
+
   return res.json();
 }
